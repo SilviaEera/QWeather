@@ -14,7 +14,7 @@ function App() {
       img: "./src/assets/cloudy-day.png",
     },
     {
-      type: "Rainy",
+      type: "Rain",
       img: "./src/assets/rainy.png",
     },
     {
@@ -26,7 +26,7 @@ function App() {
       img: "./src/assets/haze.png",
     },
     {
-      type: "Thunder",
+      type: "Thunderstorm",
       img: "./src/assets/thunder.png",
     },
     {
@@ -82,22 +82,46 @@ function App() {
           <div>
             {showWeather && (
               <div className="text-center flex flex-col gap-6 mt-10">
-                <p className="cityName text-center font-medium text-xl text-gray-400">
-                  {" "}
-                  Oslo, Norway
-                </p>
-                <img src={weathers[1].img} className="w-28 mx-auto" alt="" />
+                {apiData && (
+                  <p className="cityName text-center font-medium text-xl text-gray-400">
+                    {" "}
+                    {apiData.name}, {apiData.sys.country}
+                  </p>
+                )}
+                <img
+                  src={showWeather[0]?.img}
+                  className="w-28 mx-auto"
+                  alt=""
+                />
                 <h3 className="text-xl font-medium text-gray-400">
-                  {weathers[1].type}
+                  {showWeather[0]?.type}
                 </h3>
                 <div className="flex justify-center items-center">
                   <FontAwesomeIcon
                     icon={faTemperatureFull}
-                    className="text-2xl mr-2"
+                    className="text-2xl mr-2 text-gray-600"
                   />
-                  <h2 className="ml-2 font-extrabold text-3xl">30&#176;C</h2>
+                  {apiData && (
+                    <h2 className="ml-2 font-extrabold text-3xl text-gray-400">
+                      {(apiData.main.temp - 273.15).toFixed(1)}&#176;C
+                      <br />
+                      {(((apiData.main.temp - 273.15) * 9) / 5 + 32).toFixed(1)}
+                      &#176;F
+                    </h2>
+                  )}
+
                   {/* <p className="font-thin">{apiData.weather[0].description}</p> */}
                 </div>
+                {/* <p className="font-bold text-xl text-gray-500">
+                  {" "}
+                  {apiData.weather[0].description}
+                </p> */}
+                <p className="font-bold text-xl text-gray-400">
+                  Wind Speed: {(apiData.wind.speed * 3.6).toFixed(2)} km/h
+                </p>
+                <p className="font-bold text-xl text-gray-400">
+                  Humidity: {apiData.main.humidity}&#37;
+                </p>
               </div>
             )}
           </div>
